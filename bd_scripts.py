@@ -9,10 +9,9 @@ def db_connect():
     cursor.execute('''CREATE TABLE IF NOT EXISTS users
                             (id integer primary key,
                             username text not null,
-                            password text not null,
+                            password text,
                             tg_id integer,
                             name text,
-                            pet_id integer,
                             role integer);
                         ''')
     # role 0 - пользователь 1 - администратор
@@ -81,20 +80,35 @@ def breed():
     cursor.executemany('''INSERT INTO breeds (breed_id, animal_type, name_breed)
                                 VALUES (?, ?, ?);''', all_breeds)
     conn.commit()
-    cursor.execute('SELECT * FROM breeds')
+
+
+def db_check_user(tg_id):
+    cursor.execute("SELECT id, username, tg_id FROM users WHERE tg_id=? LIMIT 1", (tg_id,))
+    user_data = cursor.fetchone()
+    print(user_data)
+    return user_data
+
+
+def db_check_users():
+    cursor.execute("SELECT * FROM users")
+    user_data = cursor.fetchall()
+
+
+def db_add_user(name, tg_id):
+    cursor.execute("SELECT id FROM users ORDER BY id DESC LIMIT 1")
+    x = cursor.fetchone()
+    print(x)
+    if x:
+        last_id = x[0] + 1
+    else:
+        last_id = 0
+    cursor.execute('''INSERT INTO users (id, username, tg_id) VALUES (?,?,?);''', (last_id, name, tg_id))
+    conn.commit()
+    cursor.execute('SELECT * FROM users')
     print(cursor.fetchall())
 
-
-def ds():
-    cursor.execute("SELECT breed_id FROM breeds ORDER BY breed_id DESC LIMIT 1")
-    x = cursor.fetchone()
-    if x:
-        last_id = cursor.fetchone()[0] + 1
-    else: x = 0
-    print(last_id)
-    cursor.execute('''INSERT INTO users (id, username, tg_id) VALUES (?,?);''', (username, tg_id))
 
 
 if __name__ == '__main__':
     db_connect()
-    breed()
+    db_check_users()

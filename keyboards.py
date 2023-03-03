@@ -7,6 +7,12 @@ greet_kb = ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True).add
 # greet_kb = ReplyKeyboardMarkup(resize_keyboard=True).add(button_start)
 
 
+menu_button1 = KeyboardButton('Мои питомцы')
+menu_button2 = KeyboardButton('Напомнить')
 
-inline_btn_1 = InlineKeyboardButton('Зарегистрироваться', callback_data='button1')
-inline_kb1 = InlineKeyboardMarkup().add(inline_btn_1)
+menu_kb = ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True).add(menu_button1, menu_button2)
+
+
+pet_button1 = KeyboardButton('Зарегистрировать собаку')
+pet_button2 = KeyboardButton('Зарегистрировать кошку')
+pet_button3 = KeyboardButton('Зарегистрировать вакцинацию')
