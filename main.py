@@ -31,15 +31,34 @@ async def cmd_register(message: types.Message):
     await message.reply("Напишите Ваше имя")
 
 
+@dp.message_handler(text='Назад')
+async def cmd_register(message: types.Message):
+    await message.reply("Выберите действие", reply_markup=menu_kb)
+
+
 @dp.message_handler(text='Мои питомцы')
 async def cmd_register(message: types.Message):
     await message.reply("Мои питомцы")
+
+
+@dp.message_handler(text='Зарегистрировать')
+async def cmd_register(message: types.Message):
+    await message.reply("Кого вы хотите зарегистрировать?", reply_markup=reg_kb)
+
+
+@dp.message_handler(text='Собаку')
+async def cmd_register(message: types.Message):
+    m_id = message.id
+
+    await message.reply("Регистрация собаки", reply_markup=reg_kb)
+
 
 @dp.message_handler()
 async def echo_message(message: types.Message):
     mess = message.text
     user_id = message.from_user.id
     user_data = db_check_user(message.from_user.id)
+
     if not(user_data):
         username = mess
         db_add_user(username, user_id)
@@ -55,5 +74,3 @@ if __name__ == "__main__":
     # Запуск бота
     db_connect()
     executor.start_polling(dp, skip_updates=True)
-
-
