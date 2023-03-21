@@ -11,6 +11,9 @@ from bd_scripts import *
 from aiogram_calendar import simple_cal_callback, SimpleCalendar
 from aiogram.types import ReplyKeyboardRemove, InlineKeyboardMarkup, InlineKeyboardButton
 
+#TODO сделать автоудаление вакцины после прохождения даты
+#TODO сделать delete данных пользователя из db
+
 
 class RegisterPet(StatesGroup):
     name = State()
